@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>World Tours – Book your trip</title>
+<link href="https://fonts.googleapis.com/css2?family=Bitter:wght@700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#0e2238; --navy2:#16324f; --gold:#e2b23c; --gold-d:#c99a25;
+  --bg:#f3f6f9; --surface:#ffffff; --text:#1b2733; --muted:#5b6b7a; --line:#dbe3ea;
+  --serif:"Bitter",Georgia,serif; --sans:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){:root{--bg:#0a1726;--surface:#122840;--text:#e8eef4;--muted:#9fb1c2;--line:#244260;color-scheme:dark}}
+html{scroll-behavior:smooth}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font:16px/1.6 var(--sans)}
+a{color:inherit;text-decoration:none}
+:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+
+/* ---------- Hero + CSS-only slider (6 slides) ---------- */
+.hero{position:relative;min-height:100vh;min-height:100svh;color:#fff;overflow:hidden;display:grid;grid-template-rows:auto 1fr;background:var(--navy)}
+.hero>input{position:absolute;opacity:0;pointer-events:none}
+.scene{position:absolute;inset:0;opacity:0;transition:opacity .8s;background-color:var(--navy2)}
+.scene::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(8,20,36,.82),rgba(8,20,36,.32) 60%,rgba(8,20,36,.48))}
+
+/* Hero photos and thumbnails (Figma URLs) */
+.sc1,.t1{background:url("https://www.figma.com/api/mcp/asset/f670db59-2023-4d69-8bc0-66f81f816605.jpg") center / cover no-repeat}
+.sc2,.t2{background:url("https://www.figma.com/api/mcp/asset/6746af4f-53d4-48ab-987b-b72a4829d6c3.jpg") center / cover no-repeat}
+.sc3,.t3{background:url("https://www.figma.com/api/mcp/asset/a656fc2f-f94b-4edd-b246-72ea60392938.jpg") center / cover no-repeat}
+.sc4,.t4{background:url("https://www.figma.com/api/mcp/asset/a78c66a3-feca-4ba2-b201-0dfa1679fa54.jpg") center / cover no-repeat}
+.sc5,.t5{background:url("https://www.figma.com/api/mcp/asset/83678d8f-1a62-4d3d-8c26-c02f34aea412.jpg") center / cover no-repeat}
+.sc6,.t6{background:url("https://www.figma.com/api/mcp/asset/59213eb3-b3f7-4cbf-aa62-8c1eb9dc2623.jpg") center / cover no-repeat}
+
+#s1:checked~.sc1,#s2:checked~.sc2,#s3:checked~.sc3,
+#s4:checked~.sc4,#s5:checked~.sc5,#s6:checked~.sc6{opacity:1}
+
+header{position:relative;z-index:3;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;padding:1.25rem clamp(1rem,5vw,4rem)}
+.logo{font:800 1.3rem var(--serif);letter-spacing:.01em}
+.logo span{color:var(--gold)}
+nav{display:flex;gap:clamp(.9rem,2.5vw,2.2rem);flex-wrap:wrap}
+nav a{padding:.25rem 0;border-bottom:2px solid transparent;font-weight:500;opacity:.9}
+nav a:hover,nav a.on{color:var(--gold);border-color:var(--gold);opacity:1}
+
+.stage{position:relative;z-index:2;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:2rem;align-items:end;padding:2rem clamp(1rem,5vw,4rem) 3rem}
+.copies{display:grid;align-self:center}
+.copy{grid-area:1/1;max-width:34rem;opacity:0;transform:translateY(12px);transition:opacity .6s,transform .6s;pointer-events:none}
+#s1:checked~.stage .c1,#s2:checked~.stage .c2,#s3:checked~.stage .c3,
+#s4:checked~.stage .c4,#s5:checked~.stage .c5,#s6:checked~.stage .c6{opacity:1;transform:none;pointer-events:auto}
+h1{font:800 clamp(2.8rem,7vw,5.2rem)/1.02 var(--serif);margin:0 0 1rem}
+.copy p{margin:0 0 1.5rem;max-width:30rem;opacity:.92}
+.btn{display:inline-block;background:var(--gold);color:#241a00;font-weight:600;padding:.85rem 1.8rem;border:0;border-radius:3px;cursor:pointer;font-size:1rem;font-family:inherit}
+.btn:hover{background:var(--gold-d)}
+
+.cards{display:flex;gap:.6rem;justify-content:flex-end;align-items:flex-end;padding-top:12px}
+.card{display:block;flex:1 1 0;min-width:78px;max-width:120px;cursor:pointer;text-align:center;font-size:.82rem}
+.thumb{display:block;aspect-ratio:3/4;border-radius:12px;border:3px solid rgba(255,255,255,.25);background-color:var(--navy2);transition:transform .3s,border-color .3s}
+.card:hover .thumb{transform:translateY(-6px)}
+
+.card b{display:block;margin-top:.5rem;font-weight:500;opacity:.85}
+#s1:checked~.stage .k1 .thumb,#s2:checked~.stage .k2 .thumb,#s3:checked~.stage .k3 .thumb,
+#s4:checked~.stage .k4 .thumb,#s5:checked~.stage .k5 .thumb,#s6:checked~.stage .k6 .thumb{border-color:var(--gold);transform:translateY(-10px)}
+#s1:checked~.stage .k1 b,#s2:checked~.stage .k2 b,#s3:checked~.stage .k3 b,
+#s4:checked~.stage .k4 b,#s5:checked~.stage .k5 b,#s6:checked~.stage .k6 b{opacity:1;color:var(--gold)}
+#s1:focus-visible~.stage .k1 .thumb,#s2:focus-visible~.stage .k2 .thumb,#s3:focus-visible~.stage .k3 .thumb,
+#s4:focus-visible~.stage .k4 .thumb,#s5:focus-visible~.stage .k5 .thumb,#s6:focus-visible~.stage .k6 .thumb{outline:3px solid #fff}
+
+/* ---------- Sections ---------- */
+section{padding:clamp(3rem,7vw,5.5rem) clamp(1rem,5vw,4rem)}
+.wrap{max-width:1150px;margin:0 auto}
+h2{font:800 clamp(1.8rem,4vw,2.6rem)/1.15 var(--serif);margin:0 0 .5rem}
+.lead{color:var(--muted);margin:0 0 2.2rem;max-width:40rem}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.4rem}
+.tour{background:var(--surface);border:1px solid var(--line);border-radius:10px;overflow:hidden;display:flex;flex-direction:column}
+.tour .pic{width:100%;height:175px;object-fit:cover;display:block;background-color:var(--navy2)}
+.tour .body{padding:1.1rem 1.2rem 1.3rem;display:flex;flex-direction:column;gap:.4rem;flex:1}
+.tour h3{margin:0;font:700 1.15rem var(--serif)}
+.tour p{margin:0;color:var(--muted);font-size:.93rem}
+.row{display:flex;justify-content:space-between;align-items:center;margin-top:auto;padding-top:.8rem}
+.price{font-weight:600}
+.price small{color:var(--muted);font-weight:400}
+.book{border:2px solid var(--gold);padding:.4rem 1rem;border-radius:3px;font-weight:600;font-size:.9rem}
+.book:hover{background:var(--gold);color:#241a00}
+
+.band{background:var(--navy);color:#fff}
+.band .lead{color:#b8c7d6}
+.band .tour{background:var(--navy2);border-color:#2a4a6b}
+.band .tour p{color:#b8c7d6}
+.band .price small{color:#b8c7d6}
+
+/* ---------- Booking form ---------- */
+.form{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:1rem;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:clamp(1.2rem,3vw,2rem)}
+label.f{display:flex;flex-direction:column;gap:.35rem;font-weight:500;font-size:.92rem}
+.f input,.f select,.f textarea{font:inherit;padding:.7rem .8rem;border:1px solid var(--line);border-radius:6px;background:var(--bg);color:var(--text);width:100%}
+.wide{grid-column:1/-1}
+.note{color:var(--muted);font-size:.85rem;margin:.5rem 0 0}
+
+footer{background:var(--navy);color:#b8c7d6;padding:2.5rem clamp(1rem,5vw,4rem);display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap}
+footer b{color:#fff;font-family:var(--serif)}
+
+@media (max-width:820px){
+  .stage{grid-template-columns:1fr;align-items:start}
+  .cards{justify-content:flex-start;overflow-x:auto;padding-bottom:.5rem}
+  .card{flex:0 0 100px}
+}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero" id="home">
+  <input type="radio" name="s" id="s1" checked aria-label="Burj Khalifa">
+  <input type="radio" name="s" id="s2" aria-label="Phi-Phi Islands">
+  <input type="radio" name="s" id="s3" aria-label="Ha Long Bay">
+  <input type="radio" name="s" id="s4" aria-label="Kerala">
+  <input type="radio" name="s" id="s5" aria-label="Maldives">
+  <input type="radio" name="s" id="s6" aria-label="Swiss Alps">
+  <div class="scene sc1"></div><div class="scene sc2"></div><div class="scene sc3"></div>
+  <div class="scene sc4"></div><div class="scene sc5"></div><div class="scene sc6"></div>
+
+  <header>
+    <a class="logo" href="#home">World<span>Tours</span></a>
+    <nav aria-label="Main">
+      <a class="on" href="#home">Home</a>
+      <a href="#destinations">Destinations</a>
+      <a href="#honeymoon">Honeymoon Deals</a>
+      <a href="#foreigner">Foreigner Tours</a>
+      <a href="#cars">Car Rentals</a>
+      <a href="#book">Book Now</a>
+    </nav>
+  </header>
+
+  <div class="stage">
+    <div class="copies">
+      <div class="copy c1">
+        <h1>Burj Khalifa</h1>
+        <p>The tallest structure in the world, offering breathtaking views of Dubai from its observation decks.</p>
+        <a class="btn" href="#book">Book this tour</a>
+      </div>
+      <div class="copy c2">
+        <h1>Phi-Phi Islands</h1>
+        <p>Crystal-clear waters, pristine beaches and vibrant marine life make these islands a tropical paradise.</p>
+        <a class="btn" href="#book">Book this tour</a>
+      </div>
+      <div class="copy c3">
+        <h1>Ha Long Bay</h1>
+        <p>Cruise past limestone islands, kayak into hidden lagoons and eat fresh seafood on deck. Five days in northern Vietnam.</p>
+        <a class="btn" href="#book">Book this tour</a>
+      </div>
+      <div class="copy c4">
+        <h1>Kerala</h1>
+        <p>Experience the backwaters and spice plantations of Kerala. Seven days of relaxation and cultural immersion.</p>
+        <a class="btn" href="#book">Book this tour</a>
+      </div>
+      <div class="copy c5">
+        <h1>Maldives</h1>
+        <p>Stay in an overwater bungalow, snorkel in crystal-clear waters and enjoy a private candlelit dinner. Five days of paradise.</p>
+        <a class="btn" href="#book">Book this tour</a>
+      </div>
+      <div class="copy c6">
+        <h1>Swiss Alps</h1>
+        <p>Explore the stunning landscapes of the Swiss Alps. Six days of scenic train rides, hiking and cozy chalet stays.</p>
+        <a class="btn" href="#book">Book this tour</a>
+      </div>
+    </div>
+    <div class="cards">
+      <label class="card k1" for="s1"><span class="thumb t1"></span><b>Burj Khalifa</b></label>
+      <label class="card k2" for="s2"><span class="thumb t2"></span><b>Phi-Phi Islands</b></label>
+      <label class="card k3" for="s3"><span class="thumb t3"></span><b>Ha Long Bay</b></label>
+      <label class="card k4" for="s4"><span class="thumb t4"></span><b>Kerala</b></label>
+      <label class="card k5" for="s5"><span class="thumb t5"></span><b>Maldives</b></label>
+      <label class="card k6" for="s6"><span class="thumb t6"></span><b>Swiss Alps</b></label>
+    </div>
+  </div>
+</div>
+
+<!-- DESTINATIONS -->
+<section id="destinations">
+  <div class="wrap">
+    <h2>Popular destinations</h2>
+    <p class="lead">Small groups, local guides and flexible dates. Prices are per person, based on two sharing.</p>
+    <div class="grid">
+      <article class="tour">
+        <img class="pic" src="https://www.figma.com/api/mcp/asset/164e54cd-512b-420b-98c6-5742ae6a7d0b.jpg" alt="Okavango Delta safari in Botswana" loading="lazy">
+        <div class="body"><h3>Okavango Delta, Botswana</h3><p>7 days · safari, mokoro canoe, camp stays</p><div class="row"><span class="price">$2,450 <small>/ person</small></span><a class="book" href="#book">Book</a></div></div>
+      </article>
+      <article class="tour">
+        <img class="pic" src="https://www.figma.com/api/mcp/asset/7033daa9-4763-4204-82a6-8eac806aef54.jpg" alt="Lake Como and Dolomites in Italy" loading="lazy">
+        <div class="body"><h3>Lake Como &amp; Dolomites, Italy</h3><p>8 days · villages, hiking, ferry rides</p><div class="row"><span class="price">$1,980 <small>/ person</small></span><a class="book" href="#book">Book</a></div></div>
+      </article>
+      <article class="tour">
+        <img class="pic" src="https://www.figma.com/api/mcp/asset/a656fc2f-f94b-4edd-b246-72ea60392938.jpg" alt="Limestone karsts in Ha Long Bay, Vietnam" loading="lazy">
+        <div class="body"><h3>Ha Long Bay, Vietnam</h3><p>5 days · cruise, kayaking, cooking class</p><div class="row"><span class="price">$1,150 <small>/ person</small></span><a class="book" href="#book">Book</a></div></div>
+      </article>
+      <article class="tour">
+        <img class="pic" src="https://www.figma.com/api/mcp/asset/2865a99f-f0b1-4cf8-b1fa-69cd829eb5de.jpg" alt="Ancient temples and hot air balloons in Bagan, Myanmar" loading="lazy">
+        <div class="body"><h3>Bagan, Myanmar</h3><p>6 days · sunrise balloons, temples, river</p><div class="row"><span class="price">$1,720 <small>/ person</small></span><a class="book" href="#book">Book</a></div></div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- HONEYMOON -->
+<section class="band" id="honeymoon">
+  <div class="wrap">
+    <h2>Honeymoon deals</h2>
+    <p class="lead">Private transfers, a room upgrade and a candlelit dinner are included in every package.</p>
+    <div class="grid">
+      <article class="tour">
+        <img class="pic" src="https://www.figma.com/api/mcp/asset/78525c50-1e22-4211-8da2-9939f4154c49.jpg" alt="Private pool villa in Bali" loading="lazy">
+        <div class="body"><h3>Bali Romance</h3><p>7 nights · villa with pool, spa day</p><div class="row"><span class="price">$2,300 <small>/ couple</small></span><a class="book" href="#book">Book</a></div></div>
+      </article>
+      <article class="tour">
+        <img class="pic" src="https://www.figma.com/api/mcp/asset/83678d8f-1a62-4d3d-8c26-c02f34aea412.jpg" alt="Overwater bungalow in the Maldives" loading="lazy">
+        <div class="body"><h3>Maldives Escape</h3><p>5 nights · overwater bungalow, snorkelling</p><div class="row"><span class="price">$3,900 <small>/ couple</small></span><a class="book" href="#book">Book</a></div></div>
+      </article>
+      <article class="tour">
+        <img class="pic" src="https://www.figma.com/api/mcp/asset/59213eb3-b3f7-4cbf-aa62-8c1eb9dc2623.jpg" alt="Scenic mountain chalet in the Swiss Alps" loading="lazy">
+        <div class="body"><h3>Swiss Alps Retreat</h3><p>6 nights · chalet, scenic trains</p><div class="row"><span class="price">$4,200 <small>/ couple</small></span><a class="book" href="#book">Book</a></div></div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- FOREIGNER TOURS -->
+<section id="foreigner">
+  <div class="wrap">
+    <h2>Foreigner tours</h2>
+    <p class="lead">Visiting India? We handle visa guidance, airport pickup, English-speaking guides and hotel bookings.</p>
+    <div class="grid">
+      <article class="tour">
+        <img class="pic" src="https://www.figma.com/api/mcp/asset/d873a7e1-9043-4aec-9679-ddef78ed22fd.jpg" alt="Taj Mahal and historic architecture of India's Golden Triangle" loading="lazy">
+        <div class="body"><h3>Golden Triangle</h3><p>6 days · Delhi, Agra, Jaipur</p><div class="row"><span class="price">$690 <small>/ person</small></span><a class="book" href="#book">Book</a></div></div>
+      </article>
+      <article class="tour">
+        <img class="pic" src="https://www.figma.com/api/mcp/asset/397484ee-9ba8-4cea-9b58-ece2b33296e8.jpg" alt="Bengal tiger safari in Central India" loading="lazy">
+        <div class="body"><h3>Wildlife of Central India</h3><p>5 days · Nagpur, Tadoba, Pench</p><div class="row"><span class="price">$740 <small>/ person</small></span><a class="book" href="#book">Book</a></div></div>
+      </article>
+      <article class="tour">
+        <img class="pic" src="https://www.figma.com/api/mcp/asset/a78c66a3-feca-4ba2-b201-0dfa1679fa54.jpg" alt="Traditional houseboat on the Kerala backwaters" loading="lazy">
+        <div class="body"><h3>Kerala Backwaters</h3><p>6 days · houseboat, tea hills, beaches</p><div class="row"><span class="price">$810 <small>/ person</small></span><a class="book" href="#book">Book</a></div></div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- CAR RENTALS -->
+<section class="band" id="cars">
+  <div class="wrap">
+    <h2>Car rentals</h2>
+    <p class="lead">Self-drive or with a driver. Fuel-efficient cars, clear pricing and 24-hour roadside support.</p>
+    <div class="grid">
+      <article class="tour">
+        <img class="pic" src="https://www.figma.com/api/mcp/asset/878737f8-c63c-42b6-811c-3251eed0f46c.jpg" alt="4-seat hatchback rental car" loading="lazy">
+        <div class="body"><h3>Hatchback</h3><p>4 seats · AC · manual</p><div class="row"><span class="price">$28 <small>/ day</small></span><a class="book" href="#book">Reserve</a></div></div>
+      </article>
+      <article class="tour">
+        <img class="pic" src="https://www.figma.com/api/mcp/asset/24ce9cc1-e1fa-4dd8-a291-29b107a56b65.jpg" alt="5-seat automatic sedan rental car" loading="lazy">
+        <div class="body"><h3>Sedan</h3><p>5 seats · AC · automatic</p><div class="row"><span class="price">$42 <small>/ day</small></span><a class="book" href="#book">Reserve</a></div></div>
+      </article>
+      <article class="tour">
+        <img class="pic" src="https://www.figma.com/api/mcp/asset/32d52c70-655b-40d6-a8db-a23e9c07493a.jpg" alt="7-seat SUV rental car" loading="lazy">
+        <div class="body"><h3>SUV</h3><p>7 seats · AC · automatic</p><div class="row"><span class="price">$65 <small>/ day</small></span><a class="book" href="#book">Reserve</a></div></div>
+      </article>
+      <article class="tour">
+        <img class="pic" src="https://www.figma.com/api/mcp/asset/a10d28d4-f70c-4bcd-9c3a-637c8ffbe1aa.jpg" alt="12-seat Tempo Traveller mini bus" loading="lazy">
+        <div class="body"><h3>Tempo traveller</h3><p>12 seats · AC · driver included</p><div class="row"><span class="price">$95 <small>/ day</small></span><a class="book" href="#book">Reserve</a></div></div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- BOOKING FORM -->
+<section id="book">
+  <div class="wrap">
+    <h2>Book your trip</h2>
+    <p class="lead">Fill in the form and we will email you a quote within 24 hours. No payment is taken now.</p>
+    <form class="form" action="mailto:bookings@example.com" method="post" enctype="text/plain">
+      <label class="f">Full name<input type="text" name="name" required autocomplete="name"></label>
+      <label class="f">Email<input type="email" name="email" required autocomplete="email"></label>
+      <label class="f">Phone<input type="tel" name="phone" autocomplete="tel"></label>
+      <label class="f">Tour or service
+        <select name="tour" required>
+          <option value="">Choose one</option>
+          <optgroup label="Tours">
+            <option>Burj Khalifa</option><option>Phi-Phi Islands</option><option>Ha Long Bay</option><option>Kerala</option>
+            <option>Maldives</option><option>Swiss Alps</option><option>Okavango Delta</option><option>Lake Como &amp; Dolomites</option>
+            <option>Bagan</option><option>Bali Romance (honeymoon)</option><option>Golden Triangle</option>
+          </optgroup>
+          <optgroup label="Car rentals"><option>Hatchback</option><option>Sedan</option><option>SUV</option><option>Tempo traveller</option></optgroup>
+        </select>
+      </label>
+      <label class="f">Start date<input type="date" name="start" required></label>
+      <label class="f">Travellers<input type="number" name="travellers" min="1" max="20" value="2" required></label>
+      <label class="f wide">Special requests<textarea name="notes" rows="4" placeholder="Dietary needs, room type, pickup city…"></textarea></label>
+      <div class="wide"><button class="btn" type="submit">Send booking request</button>
+      <p class="note">This opens your email app. To receive bookings on a server, point the form's action to your own booking endpoint.</p></div>
+    </form>
+  </div>
+</section>
+
+<footer>
+  <div><b>WorldTours</b><br>Group and private tours, honeymoons and car rentals.</div>
+  <div>bookings@example.com<br>+91 00000 00000</div>
+</footer>
+</body>
+</html>
